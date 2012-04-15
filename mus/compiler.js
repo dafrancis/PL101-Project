@@ -10,7 +10,7 @@ var compile = function (musexpr) {
         } else {
             expr.start = time;
             note_arr.push(expr);
-            return expr.dur + time;
+            return (expr.dur || expr.duration) + time;
         }
     };
     traverse(musexpr, 0);
@@ -27,6 +27,20 @@ var melody_mus =
        { tag: 'seq',
          left: { tag: 'note', pitch: 'c4', dur: 500 },
          right: { tag: 'note', pitch: 'd4', dur: 500 } } };
+
+console.log(melody_mus);
+console.log(compile(melody_mus));
+
+melody_mus = 
+    { tag: 'seq',
+      left: 
+       { tag: 'seq',
+         left: { tag: 'note', pitch: 'a4', dur: 250 },
+         right: { tag: 'note', pitch: 'b4', dur: 250 } },
+      right:
+       { tag: 'seq',
+         left: { tag: 'note', pitch: 'c4', dur: 500 },
+         right: { tag: 'rest', duration: 500 } } };
 
 console.log(melody_mus);
 console.log(compile(melody_mus));
