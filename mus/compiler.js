@@ -1,3 +1,10 @@
+var convertPitch = function (pitch) {
+    var notes = ['c', '', 'd', '', 'e', 'f', '', 'g', '', 'a', '', 'b'];
+    var letterPitch = notes.indexOf(pitch[0]);
+    var octave = +pitch[1];
+    return 12 + (12 * octave) + letterPitch;
+};
+
 var compile = function (musexpr) {
     var note_arr = [];
     var traverse = function (expr, time) {
@@ -10,6 +17,9 @@ var compile = function (musexpr) {
         } else {
             expr.start = time;
             note_arr.push(expr);
+            if(expr.pitch) {
+                expr.pitch = convertPitch(expr.pitch);
+            }
             return (expr.dur || expr.duration) + time;
         }
     };
@@ -17,9 +27,9 @@ var compile = function (musexpr) {
     return note_arr;
 };
 
-var melody_mus = 
+var melody_mus =
     { tag: 'seq',
-      left: 
+      left:
        { tag: 'seq',
          left: { tag: 'note', pitch: 'a4', dur: 250 },
          right: { tag: 'note', pitch: 'b4', dur: 250 } },
@@ -31,9 +41,9 @@ var melody_mus =
 console.log(melody_mus);
 console.log(compile(melody_mus));
 
-melody_mus = 
+melody_mus =
     { tag: 'seq',
-      left: 
+      left:
        { tag: 'seq',
          left: { tag: 'note', pitch: 'a4', dur: 250 },
          right: { tag: 'note', pitch: 'b4', dur: 250 } },
