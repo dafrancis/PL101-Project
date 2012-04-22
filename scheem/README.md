@@ -6,7 +6,10 @@ It's a Scheme-like language written with JavaScript
 
 ## What can I do with this?
 
-You can:
-
 * Run a Scheem file by going `./scheem file.sc`
-* Test by going `node test.js` (all tests should pass)
+* Test by going `nodeunit tests` (all tests should pass)
+
+## What Node packages do I need?
+
+    npm install pegjs
+    npm install -g nodeunit
