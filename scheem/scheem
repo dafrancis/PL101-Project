@@ -1,0 +1,21 @@
+#! /usr/bin/node
+
+var PEG = require('pegjs');
+var assert = require('assert');
+var fs = require('fs');
+
+fs.readFile('parser.peg', 'ascii', function(err, data) {
+    // Create parser
+    var parse = PEG.buildParser(data).parse;
+    // Do a test
+    //assert.deepEqual( parse("(a b c)"), ["a", "b", "c"] );
+    // Get processes
+    if (process.argv.length < 3) {
+        console.log("%s <file>", process.argv[1]);
+    } else {
+        fs.readFile(process.argv[2], 'ascii', function (err, data) {
+            data = data.replace(/\n/g, '');
+            console.log(parse(data));
+        });
+    }
+});
