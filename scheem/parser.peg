@@ -1,18 +1,24 @@
-start =
-    expression
+start = expression
 
-validchar =
-    [0-9a-zA-Z_?!+-=@#$%^&*/.]
+expression =
+    WS* ex:(atom / atomlist / quote) WS*
+        { return ex; }
+
+comment =
+    ";;" (WS* atom)* "\n"
+        { return ''; }
+
+quote =
+    "'" ex:expression
+        { return ['quote', ex]; }
 
 atom =
     chars:validchar+
         { return chars.join(""); }
 
-spaced_atom =
-    " " a:expression
-        { return a; }
+atomlist =
+    "(" ex:expression* ")"
+        { return ex; }
 
-expression =
-    a: atom { return a; } 
-  / "("a:atom b:spaced_atom*")"
-        { return [a].concat(b); }
+validchar = [0-9a-zA-Z_?!+-=@#$%^&*/.]
+WS = ([ \t\n] / comment)
