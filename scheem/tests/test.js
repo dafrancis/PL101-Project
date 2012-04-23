@@ -43,11 +43,12 @@ exports["Test quotes"] = function (test) {
 };
 
 exports["Test comment"] = function (test) {
-    test.expect(2);
+    test.expect(3);
     parser(function (parse) {
-        test.deepEqual(parse(";; a b c"), '', "Comment does nothing");
-        test.deepEqual(parse(";; list of a b and c\n(a b c)"), ['a', 'b', 'c'], "Comment does nothing. (a b c) as normal");
+        test.deepEqual(parse(";; (a b c)"), '', "Comment does nothing");
+        test.deepEqual(parse(";; (a b c)\n(a b c)"), ['a', 'b', 'c'], "Comment does nothing. (a b c) as normal");
         test.deepEqual(parse(";;a\n(1 ;;b\n;;c 3\n2\n;; )\n)"), ['1', '2'], "Multiple comments");
         test.done();
     });
 };
+

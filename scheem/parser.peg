@@ -1,24 +1,14 @@
 start = expression
-
-expression =
-    WS* ex:(atom / atomlist / quote) WS*
+expression = _ ex:node _ { return ex; }
+node =
+   ";;" [^\n\r]* [\n\r]? ex: expression?
         { return ex; }
-
-comment =
-    ";;" (WS* atom)* "\n"
-        { return ''; }
-
-quote =
-    "'" ex:expression
+  / "'" ex:expression
         { return ['quote', ex]; }
-
-atom =
-    chars:validchar+
+  / chars:validchar+
         { return chars.join(""); }
-
-atomlist =
-    "(" ex:expression* ")"
+  / "(" ex:expression* ")"
         { return ex; }
-
 validchar = [0-9a-zA-Z_?!+-=@#$%^&*/.]
-WS = ([ \t\n] / comment)
+WS = [ \t\n\r]
+_ = WS*

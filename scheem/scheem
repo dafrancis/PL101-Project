@@ -11,7 +11,6 @@ fs.readFile('parser.peg', 'ascii', function(err, data) {
         console.log("%s <file>", process.argv[1]);
     } else {
         fs.readFile(process.argv[2], 'ascii', function (err, data) {
-            data = data.replace(/\n/g, '');
             console.log(parse(data));
         });
     }
